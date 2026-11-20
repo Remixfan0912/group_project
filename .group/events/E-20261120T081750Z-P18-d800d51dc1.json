@@ -1,0 +1,20 @@
+{
+  "protocol_version": "0.1",
+  "event_id": "E-20261120T081750Z-P18-d800d51dc1",
+  "event_type": "review",
+  "group_id": "G01",
+  "person_id": "P18",
+  "created_at": "2026-11-20T08:17:50.270828Z",
+  "related_events": [
+    "E-20261120T081722Z-P18-3251b5eaab"
+  ],
+  "change_id": "C-P18-7e5a20a0a2",
+  "verdict": "accept",
+  "summary": "Agent self-review: inspected core and tests against assignment. All eight win lines, turn preservation on invalid moves, draw precedence and terminal locking are correct; no existing runtime API to conflict with. CLI is explicitly out of scope.",
+  "issues": [],
+  "tests_run": [
+    "PUB isolated unittest: 11 passed"
+  ],
+  "inspected_commit": "0846e41b62a4e441e3de16324b70005c626a2329",
+  "evidence": []
+}

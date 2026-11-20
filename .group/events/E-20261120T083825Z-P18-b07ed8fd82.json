@@ -1,0 +1,43 @@
+{
+  "protocol_version": "0.1",
+  "event_id": "E-20261120T083825Z-P18-b07ed8fd82",
+  "event_type": "test_result",
+  "group_id": "G01",
+  "person_id": "P18",
+  "created_at": "2026-11-20T08:38:25.742869Z",
+  "related_events": [],
+  "scope": "C-P18-82d03da86a",
+  "commit": "05e19b3524b709a7b29f29d712c7fc50208597e8",
+  "commands": [
+    "[\"C:\\\\Users\\\\潘建宏\\\\OneDrive\\\\桌面\\\\115-1\\\\AIAP\\\\yunx\\\\groupctl-ai-collaboration\\\\.venv\\\\Scripts\\\\python.exe\", \"-m\", \"unittest\", \"discover\", \"-s\", \"tests\", \"-v\"]"
+  ],
+  "automated_result": "pass",
+  "passed": 17,
+  "failed": 0,
+  "skipped": 0,
+  "human_checks_required": [],
+  "summary": "Automated validation: pass",
+  "command_results": [
+    {
+      "argv": [
+        "C:\\Users\\潘建宏\\OneDrive\\桌面\\115-1\\AIAP\\yunx\\groupctl-ai-collaboration\\.venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_complete_win_and_final_board (test_cli.CliTests.test_complete_win_and_final_board) ... ok\ntest_draw_then_replay_resets_board_and_first_player (test_cli.CliTests.test_draw_then_replay_resets_board_and_first_player) ... ok\ntest_eof_and_interrupt_exit_during_move_or_replay (test_cli.CliTests.test_eof_and_interrupt_exit_during_move_or_replay) ... ok\ntest_errors_retry_same_player (test_cli.CliTests.test_errors_retry_same_player) ... ok\ntest_main_entrypoint_complete_game (test_cli.CliTests.test_main_entrypoint_complete_game) ... ok\ntest_numbered_board_and_marks (test_cli.CliTests.test_numbered_board_and_marks) ... ok\ntest_every_winning_line_for_both_players (test_game.GameTests.test_every_winning_line_for_both_players) ... ok\ntest_full_game_draw (test_game.GameTests.test_full_game_draw) ... ok\ntest_initial_state (test_game.GameTests.test_initial_state) ... ok\ntest_invalid_positions_preserve_state_and_turn (test_game.GameTests.test_invalid_positions_preserve_state_and_turn) ... ok\ntest_legal_moves_alternate_and_snapshot_is_immutable (test_game.GameTests.test_legal_moves_alternate_and_snapshot_is_immutable) ... ok\ntest_new_game_has_independent_state (test_game.GameTests.test_new_game_has_independent_state) ... ok\ntest_ninth_move_win_is_not_draw (test_game.GameTests.test_ninth_move_win_is_not_draw) ... ok\ntest_no_moves_after_win_or_draw (test_game.GameTests.test_no_moves_after_win_or_draw) ... ok\ntest_occupied_position_can_be_retried (test_game.GameTests.test_occupied_position_can_be_retried) ... ok\ntest_assignment_file_exists_and_is_not_empty (test_setup.ProjectSetupTests.test_assignment_file_exists_and_is_not_empty) ... ok\ntest_group_metadata_exists (test_setup.ProjectSetupTests.test_group_metadata_exists) ... ok\n\n----------------------------------------------------------------------\nRan 17 tests in 0.065s\n\nOK\n",
+      "counts": [
+        17,
+        0,
+        0
+      ],
+      "evidence_state": "pass"
+    }
+  ],
+  "validation_issues": []
+}

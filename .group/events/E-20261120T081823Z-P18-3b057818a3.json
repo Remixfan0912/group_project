@@ -1,0 +1,48 @@
+{
+  "protocol_version": "0.1",
+  "event_id": "E-20261120T081823Z-P18-3b057818a3",
+  "event_type": "integration_result",
+  "group_id": "G01",
+  "person_id": "P18",
+  "created_at": "2026-11-20T08:18:23.289090Z",
+  "related_events": [
+    "E-20261120T081722Z-P18-3251b5eaab"
+  ],
+  "change_id": "C-P18-7e5a20a0a2",
+  "target_branch": "people/P18/game-core",
+  "result": "success",
+  "merge_commit": "11c571749cdf744a5e96e1b645ac9287b8f19528",
+  "conflicts": [],
+  "conflict_resolution_summary": "No conflicts; change already present on author branch, verified exact diff and surrounding setup.",
+  "verification": {
+    "build": "not_applicable",
+    "tests": "pass",
+    "semantic_review": "pass"
+  },
+  "summary": "Core rules match assignment and preserve setup tests. No pre-existing game implementation or interface conflict. CLI is a separate task.",
+  "validation": {
+    "automated_result": "pass",
+    "results": [
+      {
+        "argv": [
+          "C:\\Users\\潘建宏\\OneDrive\\桌面\\115-1\\AIAP\\yunx\\groupctl-ai-collaboration\\.venv\\Scripts\\python.exe",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "test_every_winning_line_for_both_players (test_game.GameTests.test_every_winning_line_for_both_players) ... ok\ntest_full_game_draw (test_game.GameTests.test_full_game_draw) ... ok\ntest_initial_state (test_game.GameTests.test_initial_state) ... ok\ntest_invalid_positions_preserve_state_and_turn (test_game.GameTests.test_invalid_positions_preserve_state_and_turn) ... ok\ntest_legal_moves_alternate_and_snapshot_is_immutable (test_game.GameTests.test_legal_moves_alternate_and_snapshot_is_immutable) ... ok\ntest_new_game_has_independent_state (test_game.GameTests.test_new_game_has_independent_state) ... ok\ntest_ninth_move_win_is_not_draw (test_game.GameTests.test_ninth_move_win_is_not_draw) ... ok\ntest_no_moves_after_win_or_draw (test_game.GameTests.test_no_moves_after_win_or_draw) ... ok\ntest_occupied_position_can_be_retried (test_game.GameTests.test_occupied_position_can_be_retried) ... ok\ntest_assignment_file_exists_and_is_not_empty (test_setup.ProjectSetupTests.test_assignment_file_exists_and_is_not_empty) ... ok\ntest_group_metadata_exists (test_setup.ProjectSetupTests.test_group_metadata_exists) ... ok\n\n----------------------------------------------------------------------\nRan 11 tests in 0.003s\n\nOK\n",
+        "counts": [
+          11,
+          0,
+          0
+        ],
+        "evidence_state": "pass"
+      }
+    ]
+  }
+}

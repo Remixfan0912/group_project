@@ -1,0 +1,53 @@
+{
+  "protocol_version": "0.1",
+  "event_id": "E-20261120T081722Z-P18-3251b5eaab",
+  "event_type": "change_published",
+  "group_id": "G01",
+  "person_id": "P18",
+  "created_at": "2026-11-20T08:17:22.491935Z",
+  "related_events": [],
+  "change_id": "C-P18-7e5a20a0a2",
+  "branch": "people/P18/game-core",
+  "commit": "0846e41b62a4e441e3de16324b70005c626a2329",
+  "summary": "Implement pure Tic-Tac-Toe game rules and unit tests",
+  "base_commit": "d75138a4034b81a7124919eea36ab94ac4171733",
+  "files_changed": [
+    "game.py",
+    "tests/test_game.py"
+  ],
+  "interface_changes": [
+    "Game uses integer positions 1-9; play rejects invalid moves with ValueError and exposes immutable board and game state"
+  ],
+  "tests_run": [
+    "[\"C:\\\\Users\\\\\\u6f58\\u5efa\\u5b8f\\\\OneDrive\\\\\\u684c\\u9762\\\\115-1\\\\AIAP\\\\yunx\\\\groupctl-ai-collaboration\\\\.venv\\\\Scripts\\\\python.exe\", \"-m\", \"unittest\", \"discover\", \"-s\", \"tests\", \"-v\"]"
+  ],
+  "known_issues": [
+    "CLI remains a separate task"
+  ],
+  "proposed_for_integration": true,
+  "validation": {
+    "automated_result": "pass",
+    "results": [
+      {
+        "argv": [
+          "C:\\Users\\潘建宏\\OneDrive\\桌面\\115-1\\AIAP\\yunx\\groupctl-ai-collaboration\\.venv\\Scripts\\python.exe",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "test_every_winning_line_for_both_players (test_game.GameTests.test_every_winning_line_for_both_players) ... ok\ntest_full_game_draw (test_game.GameTests.test_full_game_draw) ... ok\ntest_initial_state (test_game.GameTests.test_initial_state) ... ok\ntest_invalid_positions_preserve_state_and_turn (test_game.GameTests.test_invalid_positions_preserve_state_and_turn) ... ok\ntest_legal_moves_alternate_and_snapshot_is_immutable (test_game.GameTests.test_legal_moves_alternate_and_snapshot_is_immutable) ... ok\ntest_new_game_has_independent_state (test_game.GameTests.test_new_game_has_independent_state) ... ok\ntest_ninth_move_win_is_not_draw (test_game.GameTests.test_ninth_move_win_is_not_draw) ... ok\ntest_no_moves_after_win_or_draw (test_game.GameTests.test_no_moves_after_win_or_draw) ... ok\ntest_occupied_position_can_be_retried (test_game.GameTests.test_occupied_position_can_be_retried) ... ok\ntest_assignment_file_exists_and_is_not_empty (test_setup.ProjectSetupTests.test_assignment_file_exists_and_is_not_empty) ... ok\ntest_group_metadata_exists (test_setup.ProjectSetupTests.test_group_metadata_exists) ... ok\n\n----------------------------------------------------------------------\nRan 11 tests in 0.002s\n\nOK\n",
+        "counts": [
+          11,
+          0,
+          0
+        ],
+        "evidence_state": "pass"
+      }
+    ]
+  }
+}

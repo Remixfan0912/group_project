@@ -1,0 +1,61 @@
+{
+  "protocol_version": "0.1",
+  "event_id": "E-20261120T075914Z-P17-2b60db56e5",
+  "event_type": "change_published",
+  "group_id": "G01",
+  "person_id": "P17",
+  "created_at": "2026-11-20T07:59:14.328917Z",
+  "related_events": [],
+  "change_id": "C-P17-35c5ce44fc",
+  "branch": "people/P17/work",
+  "commit": "cec54c64ca46be451c16efadc10b22fceee943ca",
+  "summary": "Setup Tic-Tac-Toe assignment, agent instructions, and initial tests",
+  "base_commit": "a11243f56d2c5492cf4c100dc4e3ec09911079fa",
+  "files_changed": [
+    ".agents/skills/group-collaboration/SKILL.md",
+    ".agents/skills/group-collaboration/references/commands.md",
+    ".claude/skills/group-collaboration/SKILL.md",
+    ".claude/skills/group-collaboration/references/commands.md",
+    ".gemini/skills/group-collaboration/SKILL.md",
+    ".gemini/skills/group-collaboration/references/commands.md",
+    ".gitignore",
+    "AGENTS.md",
+    "AGENT_COLLABORATION.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "assignment.md",
+    "tests/__init__.py",
+    "tests/test_setup.py"
+  ],
+  "interface_changes": [],
+  "tests_run": [
+    "[\"C:\\\\Users\\\\terry\\\\AppData\\\\Local\\\\pipx\\\\pipx\\\\venvs\\\\groupctl\\\\Scripts\\\\python.exe\", \"-m\", \"unittest\", \"discover\", \"-s\", \"tests\", \"-v\"]"
+  ],
+  "known_issues": [],
+  "proposed_for_integration": true,
+  "validation": {
+    "automated_result": "pass",
+    "results": [
+      {
+        "argv": [
+          "C:\\Users\\terry\\AppData\\Local\\pipx\\pipx\\venvs\\groupctl\\Scripts\\python.exe",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "test_assignment_file_exists_and_is_not_empty (test_setup.ProjectSetupTests.test_assignment_file_exists_and_is_not_empty) ... ok\ntest_group_metadata_exists (test_setup.ProjectSetupTests.test_group_metadata_exists) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.011s\n\nOK\n",
+        "counts": [
+          2,
+          0,
+          0
+        ],
+        "evidence_state": "pass"
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "protocol_version": "0.1",
+  "event_id": "E-20261120T083939Z-P18-c589f62841",
+  "event_type": "final_candidate",
+  "group_id": "G01",
+  "person_id": "P18",
+  "created_at": "2026-11-20T08:39:39.142794Z",
+  "related_events": [
+    "E-20261120T083933Z-P18-296d18f506"
+  ],
+  "canonical_commit": "649d3a819fdd62ded01b83929db6f9ec8024f863",
+  "candidate_report_path": ".group/final/candidate.md",
+  "test_evidence": [
+    "E-20261120T083933Z-P18-296d18f506"
+  ],
+  "known_issues": [
+    "選配 Player vs AI 未實作；本版本為本地雙人對戰。",
+    "程式審查由實作代理自我審查，尚無獨立隊友審查或人類遊玩紀錄。"
+  ],
+  "report_sha256": "842bc49379151219df141bd6da2d1efe22a11837ce15d43792682678098a3ff8",
+  "dispositions": {},
+  "human_evidence": [],
+  "evidence_mode": "real"
+}

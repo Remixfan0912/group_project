@@ -1,0 +1,59 @@
+{
+  "protocol_version": "0.1",
+  "event_id": "E-20261127T085734Z-anthony-d466859e14",
+  "event_type": "change_published",
+  "group_id": "G01",
+  "person_id": "anthony",
+  "created_at": "2026-11-27T08:57:34.648392Z",
+  "related_events": [],
+  "change_id": "C-anthony-686b74da6f",
+  "branch": "people/anthony/pretty-renderer",
+  "commit": "fd1f5ff03c542bcac546c012eb3d2d21592ad581",
+  "summary": "Render schema v1.0 AST as UML sequence diagrams and include updated login and pipeline examples",
+  "base_commit": "f7510db95a45e85391e6a2ba7d2736f5a6292094",
+  "files_changed": [
+    "examples/login-sequence.png",
+    "examples/login-sequence.puml",
+    "examples/login-sequence.svg",
+    "examples/pipeline-architecture.png",
+    "examples/pipeline-architecture.puml",
+    "examples/pipeline-architecture.svg",
+    "renderer.py",
+    "theme.puml"
+  ],
+  "interface_changes": [
+    "renderer.py exposes render_plantuml(document) and a CLI with optional local PlantUML SVG/PNG export"
+  ],
+  "tests_run": [
+    "[\"C:\\\\Python314\\\\python.exe\", \"-m\", \"unittest\", \"discover\", \"-s\", \"tests\", \"-v\"]"
+  ],
+  "known_issues": [
+    "The login example was generated with parser.py at P18 commit e850b07. The parser is pending integration. Image export requires Java and a local PlantUML JAR."
+  ],
+  "proposed_for_integration": true,
+  "validation": {
+    "automated_result": "pass",
+    "results": [
+      {
+        "argv": [
+          "C:\\Python314\\python.exe",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "test_assignment_file_exists_and_is_not_empty (test_setup.ProjectSetupTests.test_assignment_file_exists_and_is_not_empty) ... ok\ntest_group_metadata_exists (test_setup.ProjectSetupTests.test_group_metadata_exists) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.002s\n\nOK\n",
+        "counts": [
+          2,
+          0,
+          0
+        ],
+        "evidence_state": "pass"
+      }
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "protocol_version": "0.1",
+  "event_id": "E-20261127T084040Z-P18-c6eb6c24af",
+  "event_type": "change_published",
+  "group_id": "G01",
+  "person_id": "P18",
+  "created_at": "2026-11-27T08:40:40.280807Z",
+  "related_events": [],
+  "change_id": "C-P18-36d4364930",
+  "branch": "people/P18/parser-ast",
+  "commit": "e850b07a5b2b9a498a541729498814988a0e4e70",
+  "summary": "Implement Revised Process Algebra recursive-descent parser, 8-field GIT loader, lifeline ordering and unit tests",
+  "base_commit": "f7510db95a45e85391e6a2ba7d2736f5a6292094",
+  "files_changed": [
+    "parser.py",
+    "schema.json",
+    "tests/test_parser.py",
+    "tests/test_schema.py"
+  ],
+  "interface_changes": [
+    "Add parser.py exposing parse_process_algebra(expression, git_table, ...), load_git_table, order_lifelines, compute_layout_hints, ParseError, and CLI entrypoint emitting schema.json v1.0 JSON"
+  ],
+  "tests_run": [
+    "[\"C:\\\\Users\\\\\\u6f58\\u5efa\\u5b8f\\\\OneDrive\\\\\\u684c\\u9762\\\\115-1\\\\AIAP\\\\yunx\\\\groupctl-ai-collaboration\\\\.venv\\\\Scripts\\\\python.exe\", \"-m\", \"unittest\", \"discover\", \"-s\", \"tests\", \"-v\"]"
+  ],
+  "known_issues": [
+    "Module 2 renderer.py and Module 3 integration main.py are separate roles; real course lecture examples can be added to tests once shared"
+  ],
+  "proposed_for_integration": true,
+  "validation": {
+    "automated_result": "pass",
+    "results": [
+      {
+        "argv": [
+          "C:\\Users\\潘建宏\\OneDrive\\桌面\\115-1\\AIAP\\yunx\\groupctl-ai-collaboration\\.venv\\Scripts\\python.exe",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "test_all_combined_fragments (test_parser.ProcessAlgebraParserTests.test_all_combined_fragments) ... ok\ntest_cli_entrypoint (test_parser.ProcessAlgebraParserTests.test_cli_entrypoint) ... ok\ntest_cross_diagram_attributes_and_pseudo_nodes (test_parser.ProcessAlgebraParserTests.test_cross_diagram_attributes_and_pseudo_nodes) ... ok\ntest_dot_and_keyword_strict_and_explicit_frames (test_parser.ProcessAlgebraParserTests.test_dot_and_keyword_strict_and_explicit_frames) ... ok\ntest_error_cases (test_parser.ProcessAlgebraParserTests.test_error_cases) ... ok\ntest_git_table_loaders (test_parser.ProcessAlgebraParserTests.test_git_table_loaders) ... ok\ntest_guarded_alt_branches (test_parser.ProcessAlgebraParserTests.test_guarded_alt_branches) ... ok\ntest_lifeline_ordering_and_layout_hints (test_parser.ProcessAlgebraParserTests.test_lifeline_ordering_and_layout_hints) ... ok\ntest_strict_and_weak_sequencing_and_precedence (test_parser.ProcessAlgebraParserTests.test_strict_and_weak_sequencing_and_precedence) ... ok\ntest_terminals_and_identifier_edge_cases (test_parser.ProcessAlgebraParserTests.test_terminals_and_identifier_edge_cases) ... ok\ntest_unresolved_interaction_warning_and_strict_mode (test_parser.ProcessAlgebraParserTests.test_unresolved_interaction_warning_and_strict_mode) ... ok\ntest_all_internal_refs_resolve (test_schema.SchemaContractTests.test_all_internal_refs_resolve) ... ok\ntest_covers_all_required_grammar_constructs (test_schema.SchemaContractTests.test_covers_all_required_grammar_constructs) ... ok\ntest_embedded_examples_match_contract (test_schema.SchemaContractTests.test_embedded_examples_match_contract) ... ok\ntest_schema_file_and_draft_metadata (test_schema.SchemaContractTests.test_schema_file_and_draft_metadata) ... ok\ntest_assignment_file_exists_and_is_not_empty (test_setup.ProjectSetupTests.test_assignment_file_exists_and_is_not_empty) ... ok\ntest_group_metadata_exists (test_setup.ProjectSetupTests.test_group_metadata_exists) ... ok\n\n----------------------------------------------------------------------\nRan 17 tests in 0.017s\n\nOK\n",
+        "counts": [
+          17,
+          0,
+          0
+        ],
+        "evidence_state": "pass"
+      }
+    ]
+  }
+}

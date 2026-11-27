@@ -1,0 +1,839 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://g01.pretty-sequence-diagrams/schema/v1.0/ast.schema.json",
+  "title": "Pretty Sequence Diagrams Intermediate AST & Lifelines Schema",
+  "description": "Interface contract between Module 1 (Parser / AST Builder, parser.py) and Module 2 (Layout & Pretty Renderer, renderer.py) for SBC Revised Process Algebra + 8-Field Guarded Interaction Table (GIT).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "metadata",
+    "lifelines",
+    "interactions",
+    "ast"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "description": "Semantic version of this intermediate JSON contract."
+    },
+    "metadata": {
+      "$ref": "#/$defs/Metadata"
+    },
+    "lifelines": {
+      "type": "array",
+      "description": "Ordered list of lifelines derived from GIT caller (Xi) and callee (Gamma) fields, sorted left-to-right to reduce arrow crossings.",
+      "items": {
+        "$ref": "#/$defs/Lifeline"
+      }
+    },
+    "interactions": {
+      "type": "object",
+      "description": "Normalized lookup table of 8-Field Guarded Interaction Table (GIT) entries keyed by interaction ID.",
+      "additionalProperties": {
+        "$ref": "#/$defs/GitInteraction"
+      }
+    },
+    "ast": {
+      "$ref": "#/$defs/AstNode",
+      "description": "Root node of the parsed Revised Process Algebra abstract syntax tree."
+    },
+    "layout_hints": {
+      "$ref": "#/$defs/LayoutHints",
+      "description": "Optional precomputed layout metrics to assist the renderer with anti-overlap horizontal spacing and visual styling."
+    }
+  },
+  "$defs": {
+    "Metadata": {
+      "type": "object",
+      "required": [
+        "source_expression",
+        "warnings"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Optional diagram title."
+        },
+        "source_expression": {
+          "type": "string",
+          "description": "Original Revised Process Algebra input string."
+        },
+        "warnings": {
+          "type": "array",
+          "description": "Non-fatal diagnostics such as unresolved interaction IDs or gracefully degraded cross-diagram attributes (SMD/AD).",
+          "items": {
+            "$ref": "#/$defs/Diagnostic"
+          }
+        }
+      }
+    },
+    "Diagnostic": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Machine-readable diagnostic code (e.g., UNRESOLVED_INTERACTION, DEGRADED_CROSS_DIAGRAM_ATTRIB)."
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "span": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      }
+    },
+    "SourceSpan": {
+      "type": "object",
+      "description": "0-based half-open character offsets [start, end) in source_expression.",
+      "required": [
+        "start",
+        "end"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "Lifeline": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "order"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier matching GIT caller/callee values."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Display label rendered in the lifeline header box."
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "0-based left-to-right display position."
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "participant",
+            "actor",
+            "boundary",
+            "control",
+            "entity",
+            "database"
+          ],
+          "default": "participant",
+          "description": "Optional UML/PlantUML participant stereotype."
+        },
+        "swimlane": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional swimlane hint from ADattrib (swimlanes/inlane)."
+        }
+      }
+    },
+    "GitInteraction": {
+      "type": "object",
+      "description": "8-Field Guarded Interaction Table entry: i = (C, Xi, N, Gamma, Lambda, Theta_in, Theta_out, Pi).",
+      "required": [
+        "id",
+        "guard",
+        "caller",
+        "nature",
+        "callee",
+        "operation",
+        "inputs",
+        "outputs",
+        "actions",
+        "label"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Atomic interaction symbol referenced in the Process Algebra expression."
+        },
+        "guard": {
+          "type": "string",
+          "description": "C: Guard condition without surrounding brackets (empty string if unconditional)."
+        },
+        "caller": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Xi: Source lifeline ID."
+        },
+        "nature": {
+          "type": "string",
+          "enum": [
+            "call",
+            "return",
+            "combined"
+          ],
+          "description": "N: Interaction nature ('call' solid arrow, 'return' dashed return arrow, or 'combined')."
+        },
+        "callee": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Gamma: Target lifeline ID."
+        },
+        "operation": {
+          "type": "string",
+          "description": "Lambda: Operation / method name."
+        },
+        "inputs": {
+          "type": "array",
+          "description": "Theta_in: Ordered list of input parameters.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "description": "Theta_out: Ordered list of output parameters / return values.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "actions": {
+          "type": "string",
+          "description": "Pi: Transition actions or side-effect code (empty string if none)."
+        },
+        "label": {
+          "type": "string",
+          "description": "Preformatted UML message label, e.g. '[C] operation(in1, in2): out1'."
+        },
+        "label_length": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Character length of label for dynamic horizontal spacing calculations."
+        }
+      }
+    },
+    "LayoutHints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_label_length": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum label character length across all referenced interactions."
+        },
+        "pair_spacings": {
+          "type": "array",
+          "description": "Maximum message label lengths between specific caller/callee lifeline pairs.",
+          "items": {
+            "type": "object",
+            "required": [
+              "from",
+              "to",
+              "max_label_length"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "type": "string",
+                "minLength": 1
+              },
+              "to": {
+                "type": "string",
+                "minLength": 1
+              },
+              "max_label_length": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "has_weak_sequencing": {
+          "type": "boolean"
+        },
+        "has_strict_sequencing": {
+          "type": "boolean"
+        },
+        "max_fragment_depth": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "AstNode": {
+      "description": "Discriminated union of all Revised Process Algebra AST node types (discriminated by 'type').",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/InteractionNode"
+        },
+        {
+          "$ref": "#/$defs/SequenceNode"
+        },
+        {
+          "$ref": "#/$defs/CombinedFragmentNode"
+        },
+        {
+          "$ref": "#/$defs/RefNode"
+        },
+        {
+          "$ref": "#/$defs/RaiseNode"
+        },
+        {
+          "$ref": "#/$defs/TerminalNode"
+        },
+        {
+          "$ref": "#/$defs/AnnotatedNode"
+        },
+        {
+          "$ref": "#/$defs/PseudoNode"
+        }
+      ]
+    },
+    "InteractionNode": {
+      "type": "object",
+      "description": "Atomic interaction referencing an entry in top-level interactions.",
+      "required": [
+        "type",
+        "id",
+        "resolved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "interaction"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resolved": {
+          "type": "boolean",
+          "description": "True if id exists in top-level interactions; false triggers a warning in metadata.warnings."
+        },
+        "span": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      }
+    },
+    "SequenceNode": {
+      "type": "object",
+      "description": "Ordered composition distinguishing strict sequencing ('>>', '.', 'strict') from weak sequencing ('seq').",
+      "required": [
+        "type",
+        "mode",
+        "operator",
+        "explicit_frame",
+        "children"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "sequence"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "strict",
+            "weak"
+          ],
+          "description": "'strict' requires complete ordering across lifelines; 'weak' preserves per-lifeline local order only."
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            ">>",
+            ".",
+            "strict",
+            "seq"
+          ],
+          "description": "Original source operator token."
+        },
+        "explicit_frame": {
+          "type": "boolean",
+          "description": "True when written as a framed block such as '(strict: ...)' or '(seq: ...)' so the renderer draws an explicit strict/seq frame."
+        },
+        "children": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/AstNode"
+          }
+        },
+        "span": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      }
+    },
+    "CombinedFragmentNode": {
+      "type": "object",
+      "description": "UML/SysML Combined Fragment covering infix alt/par and prefix CFtype expressions.",
+      "required": [
+        "type",
+        "kind",
+        "operands"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "combined_fragment"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "alt",
+            "par",
+            "opt",
+            "loop",
+            "break",
+            "neg",
+            "critical",
+            "assert",
+            "ignore",
+            "consider"
+          ]
+        },
+        "guard": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Fragment-level guard condition for opt[cond], break[cond], assert[cond], loop(min, max)[cond]."
+        },
+        "min": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "description": "Minimum iteration count for loop(min, max)[cond]."
+        },
+        "max": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "const": "*"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Maximum iteration count for loop(min, max)[cond]; '*' denotes unbounded."
+        },
+        "items": {
+          "type": "array",
+          "description": "Interaction/message list for ignore[i, ...] and consider[i, ...].",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "operands": {
+          "type": "array",
+          "minItems": 1,
+          "description": "One operand for single-compartment fragments (opt/loop/neg/critical/break/assert/ignore/consider), two or more for alt/par.",
+          "items": {
+            "$ref": "#/$defs/FragmentOperand"
+          }
+        },
+        "span": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      }
+    },
+    "FragmentOperand": {
+      "type": "object",
+      "required": [
+        "body"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "guard": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional per-operand guard condition (especially for alt branches)."
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional display label for this compartment."
+        },
+        "body": {
+          "$ref": "#/$defs/AstNode"
+        }
+      }
+    },
+    "RefNode": {
+      "type": "object",
+      "description": "Interaction Use / module reference: 'ref A'.",
+      "required": [
+        "type",
+        "target"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "ref"
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "span": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      }
+    },
+    "RaiseNode": {
+      "type": "object",
+      "description": "Raised signal or event: 'raise[name]'.",
+      "required": [
+        "type",
+        "event"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "raise"
+        },
+        "event": {
+          "type": "string",
+          "minLength": 1
+        },
+        "span": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      }
+    },
+    "TerminalNode": {
+      "type": "object",
+      "description": "Termination or continuation marker: '0', '◉', 'C', or '©'.",
+      "required": [
+        "type",
+        "kind",
+        "symbol"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "terminal"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "stop",
+            "final",
+            "continue"
+          ],
+          "description": "'stop' for '0', 'final' for '◉', 'continue' for 'C' or '©'."
+        },
+        "symbol": {
+          "type": "string",
+          "enum": [
+            "0",
+            "◉",
+            "C",
+            "©"
+          ]
+        },
+        "span": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      }
+    },
+    "AnnotatedNode": {
+      "type": "object",
+      "description": "Attribute-bracketed expression '([attribs]: expr)' supporting SMDattrib, ADattrib, and fork/join compatibility.",
+      "required": [
+        "type",
+        "attributes",
+        "body"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "annotated"
+        },
+        "attributes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/CrossDiagramAttribute"
+          }
+        },
+        "body": {
+          "$ref": "#/$defs/AstNode"
+        },
+        "span": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      }
+    },
+    "CrossDiagramAttribute": {
+      "type": "object",
+      "required": [
+        "name",
+        "category"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Attribute keyword such as defer, invariant, swimlanes, inlane, interrupt, catch, activityFinal, fork, join."
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "smd",
+            "ad",
+            "control",
+            "custom"
+          ],
+          "description": "'smd' (defer/invariant), 'ad' (swimlanes/inlane/interrupt/catch/activityFinal), 'control' (fork/join), or 'custom'."
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional arguments attached to the attribute."
+        },
+        "raw": {
+          "type": "string",
+          "description": "Original raw attribute text for fallback note rendering."
+        }
+      }
+    },
+    "PseudoNode": {
+      "type": "object",
+      "description": "Cross-diagram pseudostate or standalone control construct such as 'pseudo(...)', 'fork', or 'join'.",
+      "required": [
+        "type",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "pseudo"
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "raw": {
+          "type": "string"
+        },
+        "span": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "schema_version": "1.0",
+      "metadata": {
+        "title": "Login and Retry Flow",
+        "source_expression": "i1 >> (loop(1, 3)[retry]: (i2 >> (opt[valid]: i3))) >> (ref SessionStart alt raise[AuthFailed])",
+        "warnings": []
+      },
+      "lifelines": [
+        {
+          "id": "Client",
+          "name": "Client",
+          "order": 0,
+          "role": "actor"
+        },
+        {
+          "id": "AuthService",
+          "name": "AuthService",
+          "order": 1,
+          "role": "participant"
+        },
+        {
+          "id": "UserDB",
+          "name": "UserDB",
+          "order": 2,
+          "role": "database"
+        }
+      ],
+      "interactions": {
+        "i1": {
+          "id": "i1",
+          "guard": "",
+          "caller": "Client",
+          "nature": "call",
+          "callee": "AuthService",
+          "operation": "login",
+          "inputs": [
+            "user",
+            "pwd"
+          ],
+          "outputs": [],
+          "actions": "",
+          "label": "login(user, pwd)",
+          "label_length": 16
+        },
+        "i2": {
+          "id": "i2",
+          "guard": "",
+          "caller": "AuthService",
+          "nature": "call",
+          "callee": "UserDB",
+          "operation": "verify",
+          "inputs": [
+            "user"
+          ],
+          "outputs": [
+            "ok"
+          ],
+          "actions": "",
+          "label": "verify(user): ok",
+          "label_length": 16
+        },
+        "i3": {
+          "id": "i3",
+          "guard": "ok",
+          "caller": "AuthService",
+          "nature": "return",
+          "callee": "Client",
+          "operation": "issueToken",
+          "inputs": [],
+          "outputs": [
+            "token"
+          ],
+          "actions": "logSuccess()",
+          "label": "[ok] issueToken(): token",
+          "label_length": 24
+        }
+      },
+      "ast": {
+        "type": "sequence",
+        "mode": "strict",
+        "operator": ">>",
+        "explicit_frame": false,
+        "children": [
+          {
+            "type": "interaction",
+            "id": "i1",
+            "resolved": true
+          },
+          {
+            "type": "combined_fragment",
+            "kind": "loop",
+            "min": 1,
+            "max": 3,
+            "guard": "retry",
+            "operands": [
+              {
+                "guard": null,
+                "body": {
+                  "type": "sequence",
+                  "mode": "strict",
+                  "operator": ">>",
+                  "explicit_frame": false,
+                  "children": [
+                    {
+                      "type": "interaction",
+                      "id": "i2",
+                      "resolved": true
+                    },
+                    {
+                      "type": "combined_fragment",
+                      "kind": "opt",
+                      "guard": "valid",
+                      "operands": [
+                        {
+                          "guard": null,
+                          "body": {
+                            "type": "interaction",
+                            "id": "i3",
+                            "resolved": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "combined_fragment",
+            "kind": "alt",
+            "guard": null,
+            "operands": [
+              {
+                "guard": null,
+                "body": {
+                  "type": "ref",
+                  "target": "SessionStart"
+                }
+              },
+              {
+                "guard": null,
+                "body": {
+                  "type": "raise",
+                  "event": "AuthFailed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "layout_hints": {
+        "max_label_length": 24,
+        "pair_spacings": [
+          {
+            "from": "Client",
+            "to": "AuthService",
+            "max_label_length": 24
+          },
+          {
+            "from": "AuthService",
+            "to": "UserDB",
+            "max_label_length": 16
+          }
+        ],
+        "has_weak_sequencing": false,
+        "has_strict_sequencing": true,
+        "max_fragment_depth": 2
+      }
+    }
+  ]
+}

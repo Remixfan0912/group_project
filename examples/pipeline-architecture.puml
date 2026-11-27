@@ -1,0 +1,43 @@
+@startuml
+title Pretty Sequence Diagrams — Pipeline
+skinparam backgroundColor #F8FAFC
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontColor #172C44
+skinparam TitleFontSize 20
+skinparam ArrowColor #235C78
+skinparam component {
+  BackgroundColor #E8F3FA
+  BorderColor #3A6582
+}
+skinparam artifact {
+  BackgroundColor #FFFFFF
+  BorderColor #7892AB
+}
+
+artifact "Revised Process Algebra\nExpression or text file" as Expression
+artifact "Guarded Interaction Table\nJSON, CSV or Markdown" as GIT
+component "Parser and AST Builder\nparser.py" as Parser #DDF0EF
+artifact "Intermediate JSON v1.0\nAST, lifelines, interactions and layout hints" as AST
+artifact "schema.json\nJSON Schema v1.0" as Contract
+component "Sequence Diagram Renderer\nrenderer.py" as Renderer
+artifact "theme.puml" as Theme
+artifact "PlantUML source (.puml)" as Source
+component "PlantUML JAR\nLocal image export" as PlantUML
+artifact "UML sequence diagram\nSVG and PNG" as Images
+
+Expression --> Parser : parse
+GIT --> Parser : normalize interactions
+Parser --> AST : write
+Contract .right.> AST : defines format
+AST --> Renderer : read
+Theme -left-> Renderer : apply styles
+Renderer --> Source : generate
+Source --> PlantUML : optional
+PlantUML --> Images : export
+
+legend bottom
+  Parser at e850b07 on people/P18/parser-ast
+  Renderer on people/anthony/pretty-renderer
+endlegend
+@enduml

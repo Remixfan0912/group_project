@@ -1,0 +1,29 @@
+' Included by renderer.py inside the diagram.
+hide footbox
+skinparam backgroundColor #F8FAFC
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontColor #172C44
+skinparam TitleFontSize 20
+skinparam TitleFontColor #172C44
+skinparam BoxPadding 12
+skinparam sequence {
+    ArrowColor #235C78
+    LifeLineBorderColor #7892AB
+    LifeLineBackgroundColor #CBE8EF
+    ParticipantBackgroundColor #E8F3FA
+    ParticipantBorderColor #3A6582
+    ActorBackgroundColor #E8F3FA
+    ActorBorderColor #3A6582
+    DatabaseBackgroundColor #E8F3FA
+    DatabaseBorderColor #3A6582
+    GroupBorderColor #7892AB
+    GroupBackgroundColor #E5EFF8
+    GroupHeaderFontColor #172C44
+    ReferenceBorderColor #7892AB
+    ReferenceHeaderBackgroundColor #E5EFF8
+}
+skinparam note {
+    BackgroundColor #FFF6E3
+    BorderColor #AD8756
+}

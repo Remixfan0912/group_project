@@ -1,0 +1,58 @@
+@startuml
+' Included by renderer.py inside the diagram.
+hide footbox
+skinparam backgroundColor #F8FAFC
+skinparam shadowing false
+skinparam defaultFontName SansSerif
+skinparam defaultFontColor #172C44
+skinparam TitleFontSize 20
+skinparam TitleFontColor #172C44
+skinparam BoxPadding 12
+skinparam sequence {
+    ArrowColor #235C78
+    LifeLineBorderColor #7892AB
+    LifeLineBackgroundColor #CBE8EF
+    ParticipantBackgroundColor #E8F3FA
+    ParticipantBorderColor #3A6582
+    ActorBackgroundColor #E8F3FA
+    ActorBorderColor #3A6582
+    DatabaseBackgroundColor #E8F3FA
+    DatabaseBorderColor #3A6582
+    GroupBorderColor #7892AB
+    GroupBackgroundColor #E5EFF8
+    GroupHeaderFontColor #172C44
+    ReferenceBorderColor #7892AB
+    ReferenceHeaderBackgroundColor #E5EFF8
+}
+skinparam note {
+    BackgroundColor #FFF6E3
+    BorderColor #AD8756
+}
+<style>
+participant {
+    Padding 26
+}
+</style>
+title Login and Retry Flow
+actor "Client" as L0
+participant "AuthService" as L1
+database "UserDB" as L2
+L0 -> L1 : login(user, pwd)
+activate L1
+loop (1, 3) [retry]
+L1 -> L2 : verify(user)
+activate L2
+L2 --> L1 : ok
+deactivate L2
+opt valid
+L1 --> L0 : <U+005B>ok<U+005D> issueToken(): token
+deactivate L1
+note over L1 : Action: logSuccess()
+end
+end
+alt ok
+ref over L0, L2 : SessionStart
+else not ok
+note over L0, L2 : raise<U+005B>AuthFailed<U+005D>
+end
+@enduml
